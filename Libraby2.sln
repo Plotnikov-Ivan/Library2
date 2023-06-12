@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libraby2", "Libraby2\Libraby2.csproj", "{5AC0C8CD-149A-40D8-BDDB-B36D610690F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5AC0C8CD-149A-40D8-BDDB-B36D610690F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC0C8CD-149A-40D8-BDDB-B36D610690F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC0C8CD-149A-40D8-BDDB-B36D610690F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC0C8CD-149A-40D8-BDDB-B36D610690F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6AFEEDB-D469-4213-9458-BB4D4390DCDC}
+	EndGlobalSection
+EndGlobal
