@@ -13,7 +13,6 @@ namespace Libraby2.Library.DAL.Repositories
     public class BookFileBinaryRepository : IBookRepository
     {
  
-
         public void AddBook(BookEntity item)
         {
             List<BookEntity> bookEntities = GetAllBooks();

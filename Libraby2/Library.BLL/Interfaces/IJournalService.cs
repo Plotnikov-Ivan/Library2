@@ -9,9 +9,10 @@ namespace Libraby2.Library.BLL.Interfaces
 {
     public interface IJournalService
     {
-        List<JournalDTO> GetAllMagazines();
-        JournalDTO SearchMagazine(int code);
-        void AddMagazine(JournalDTO item);
-        void DeleteMagazine(int code);
+        List<JournalDTO> GetAllJournals();
+        JournalDTO SearchJournal(int code);
+        void AddJournal(JournalDTO item);
+        void DeleteJournal(int code);
+        void ChangeJournal(int id, string name, int count, int number);
     }
 }

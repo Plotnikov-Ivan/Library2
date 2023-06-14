@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
-namespace Libraby2.Library.BLL.DTO
+namespace Libraby2.Library.DAL.Entities
 {
-    public class JournalDTO
+    public class JournalEntity
     {
-        public JournalDTO() { }
-        public JournalDTO(int new_id, string new_name, string new_freq, int new_count, int new_year, string new_publisher, int new_number)
+        public JournalEntity() { }
+        public JournalEntity(int new_id, string new_name, string new_freq, int new_count, int new_year, string new_publisher, int new_number)
         {
             id = new_id;
             year = new_year;
@@ -20,10 +19,10 @@ namespace Libraby2.Library.BLL.DTO
             number = new_number;
             publisher = new_publisher;
         }
-          
+
         public int id { get; set; }
         public int year { get; set; }
-        public string name { get; set; }            
+        public string name { get; set; }
         public int count { get; set; }
 
         public string freq { get; set; }
@@ -31,6 +30,5 @@ namespace Libraby2.Library.BLL.DTO
         public int number { get; set; }
 
         public string publisher { get; set; }
-
     }
 }

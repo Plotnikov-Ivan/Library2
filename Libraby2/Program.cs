@@ -8,12 +8,14 @@ using System.Security.Cryptography;
 using System.Text;
 
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-BookController bookController = new BookController(new BookServices(new BookFileBinaryRepository())); ;
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+BookController bookController = new BookController(new BookServices(new BookFileBinaryRepository()));
+JournalController jrController = new JournalController(new JournalServices(new JournalDataBaseRepository())); 
 
 string cmd;
 string ans;
-string name, author, genre, publ;
-int id, count, year;
+string name, author, genre, publ, freq;
+int id, count, year, number;
 
 while (true)
 {
@@ -25,7 +27,7 @@ while (true)
          Console.WriteLine("Все возможные команды для этой программы: \n" +
          "-input  --  Добавить новую книгу/журнал \n" + "-delete  --  Удаление книги/журнала по ID \n" +
          "-change  --  Изменить данные о книге/журнале \n" + "-search  --  Поиск книги/журнала по названию \n" +
-         "-end  --  Выход" + "\n -showb  --  Показать все книги");
+         "-end  --  Выход" + "\n-showb  --  Показать все книги" + "\n-showj  --  Показать все журналы");
         break;
 
         case "-input":   
@@ -63,7 +65,39 @@ while (true)
             break;
 
          }
-        break;
+         if (ans == "Журнал" || ans == "журнал")
+         {
+            Console.WriteLine("Введите ID журнала:");
+            id = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Введите Название журнала:");
+            name = Console.ReadLine();
+
+            Console.WriteLine("Введите количество журналов:");
+            count = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Введите периодичность журнала:");
+            freq = Console.ReadLine();
+
+            Console.WriteLine("Введите год издания журнала:");
+            year = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Введите издательство журнала:");
+            publ = Console.ReadLine();
+
+            Console.WriteLine("Введите номер журнала:");
+            number = Convert.ToInt32(Console.ReadLine());
+
+
+
+            JournalModel jrModel = new JournalModel(id, name, freq, count, year, publ, number);
+
+            jrController.AddJournal(jrModel);
+
+            break;
+
+         }
+                break;
 
         case "-delete":
     
@@ -78,7 +112,15 @@ while (true)
             bookController.DeleteBook(iddel);
             break;
         }
-        break;
+        if (ans == "Журнал" || ans == "журнал")
+            {
+              int iddel;
+              Console.WriteLine("Введите ID журнала:");
+              iddel = Convert.ToInt32(Console.ReadLine());
+              jrController.DeleteJournal(iddel);
+              break;
+        }
+         break;
 
         case "-showb":
             List<BookModel> bookModels = bookController.GetAllBooks();
@@ -89,9 +131,19 @@ while (true)
             }
             break;
 
+        case "-showj":
+            List<JournalModel> jrModels = jrController.GetAllJournals();
+            foreach (var item in jrModels)
+            {
+                Console.WriteLine("Название: " + item.name + '\n' + "Код: " + item.id + '\n' + "Автор: " + item.year);
+                Console.WriteLine("-------------------------------------------------------------");
+            }
+            break;
+
 
         case "-search":
             BookModel bookfind = new BookModel();
+            JournalModel jrfind = new JournalModel();
             Console.WriteLine("Вы желаете найти книгу или журнал?");
             ans = Console.ReadLine();
             if (ans == "Книгу" || ans == "книгу")
@@ -100,15 +152,33 @@ while (true)
                 Console.WriteLine("Введите ID книги:");
                 idser = Convert.ToInt32(Console.ReadLine());
                 bookfind = bookController.SearchBook(idser);
-                Console.WriteLine("Название: " + bookfind.name + '\n' + "Код: " + bookfind.id + '\n' + "Автор: " + bookfind.author);
-                Console.WriteLine("-------------------------------------------------------------");
+                if (bookfind != null)
+                {
+                    Console.WriteLine("Название: " + bookfind.name + '\n' + "Код: " + bookfind.id + '\n' + "Автор: " + bookfind.author);
+                    Console.WriteLine("-------------------------------------------------------------");
+                }
+                break;
+            }
+            if (ans == "Журнал" || ans == "журнал")
+            {
+                int idser;
+                Console.WriteLine("Введите ID журнала:");
+                idser = Convert.ToInt32(Console.ReadLine());
+                jrfind = jrController.SearchJournal(idser);
+                if (jrfind != null)
+                {
+                    Console.WriteLine("Название: " + jrfind.name + '\n' + "Код: " + jrfind.id + '\n' + "Автор: " + jrfind.year);
+                    Console.WriteLine("-------------------------------------------------------------");
+                }
                 break;
             }
             break;
 
         case "-change":
             BookModel bookch = new BookModel();
+            JournalModel jrch= new JournalModel();
             string NewParam;
+            int iNewParam;
             Console.WriteLine("Вы желаете изменить книгу или журнал?");
             ans = Console.ReadLine();
             if (ans == "Книгу" || ans == "книгу")
@@ -128,7 +198,7 @@ while (true)
                 }
                 if (Console.ReadLine() == "2")
                 {
-                    int iNewParam;
+                   
                     Console.WriteLine("\n Введите количество");
                     iNewParam = Convert.ToInt32(Console.ReadLine());
                     bookController.ChangeBook(idch, bookch.name, iNewParam, bookch.author);
@@ -143,6 +213,43 @@ while (true)
                     bookController.ChangeBook(idch, bookch.name, bookch.count, NewParam);
                     Console.WriteLine("Название: " + bookch.name + '\n' + "Код: " + bookch.id + '\n' + "Автор: " + NewParam + '\n' 
                         + "Количество: " + bookch.count);
+                    Console.WriteLine("-------------------------------------------------------------");
+                }
+
+                break;
+            }
+            if (ans == "Журнал" || ans == "журнал")
+            {
+                int idch;
+                Console.WriteLine("Введите ID журнала:");
+                idch = Convert.ToInt32(Console.ReadLine());
+                jrch = jrController.SearchJournal(idch);
+                Console.WriteLine("\n 1 --  Изменить имя" + "\n 2 -- Изменить количество" + "\n 3 -- Изменить номер журнала");
+                int answer = Convert.ToInt32(Console.ReadLine());
+                if (answer == 1)
+                {
+                    Console.WriteLine("\n Введите новое имя");
+                    NewParam = Console.ReadLine();
+                    jrController.ChangeJournal(idch, NewParam, jrch.count, jrch.number);
+                    Console.WriteLine("Название: " + NewParam + '\n' + "Код: " + jrch.id + '\n' + "Номер журнала: " + jrch.number + "Количество: " + jrch.count);
+                    Console.WriteLine("-------------------------------------------------------------");
+                }
+                if (answer == 2)
+                {
+                    Console.WriteLine("\n Введите количество");
+                    iNewParam = Convert.ToInt32(Console.ReadLine());
+                    jrController.ChangeJournal(idch, jrch.name, iNewParam, jrch.number);
+                    Console.WriteLine("Название: " + jrch.name + '\n' + "Код: " + jrch.id + '\n' + "Номер журнала: " + jrch.number + '\n'
+                        + "Количество: " + iNewParam);
+                    Console.WriteLine("-------------------------------------------------------------");
+                }
+                if (answer == 3)
+                {
+                    Console.WriteLine("\n Введите количество");
+                    iNewParam = Convert.ToInt32(Console.ReadLine());
+                    jrController.ChangeJournal(idch, jrch.name, jrch.count, iNewParam);
+                    Console.WriteLine("Название: " + jrch.name + '\n' + "Код: " + jrch.id + '\n' + "Номер журнала: " + iNewParam + '\n'
+                        + "Количество: " + jrch.count);
                     Console.WriteLine("-------------------------------------------------------------");
                 }
 
